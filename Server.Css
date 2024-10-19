@@ -1,0 +1,21 @@
+body {
+    background-color: #f0f2f5; /* Cor de fundo suave */
+    font-family: 'Arial', sans-serif; /* Fonte moderna */
+}
+
+#postagens {
+    margin-top: 20px;
+}
+
+.postagem {
+    background-color: #ffffff; /* Fundo branco para postagens */
+    border-radius: 8px; /* Bordas arredondadas */
+    padding: 15px; /* Espaçamento interno */
+    margin-bottom: 15px; /* Espaçamento entre postagens */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra leve */
+}
+@media (max-width: 768px) {
+    body {
+        padding: 10px; /* Reduzir o padding em telas menores */
+    }
+}

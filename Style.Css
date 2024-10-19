@@ -1,0 +1,105 @@
+.conversation-messages {
+    display: flex;
+    flex-direction: column; /* Alinha as mensagens em coluna */
+}
+
+.conversation-messages li {
+    list-style: none; /* Remove os marcadores da lista */
+    padding: 10px 15px; /* Espaçamento interno para as mensagens */
+    border-radius: 20px; /* Bordas arredondadas para o efeito de balão */
+    margin: 5px 0; /* Espaçamento entre mensagens */
+    max-width: 75%; /* Limita a largura das mensagens */
+    word-wrap: break-word; /* Quebra a linha para longas mensagens */
+}
+
+.conversation-messages li.sent {
+    background: linear-gradient(to right, #007bff, #0056b3); /* Gradiente para mensagens enviadas */
+    color: transparent; /* Texto transparente para usar o clip */
+    background-clip: text; /* Aplica o gradiente ao texto */
+    -webkit-background-clip: text; /* Para navegadores baseados em WebKit */
+    align-self: flex-end; /* Alinha mensagens enviadas à direita */
+}
+
+.conversation-messages li.received {
+    background: linear-gradient(to right, #f1f1f1, #e0e0e0); /* Gradiente para mensagens recebidas */
+    color: black; /* Cor do texto para mensagens recebidas */
+    align-self: flex-start; /* Alinha mensagens recebidas à esquerda */
+}
+.navbar-icons button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 28px; /* Aumenta o tamanho do ícone */
+    color: #fff;
+    transition: color 0.3s;
+    padding: 10px; /* Adiciona espaço ao redor do botão */
+    width: 50px; /* Largura fixa para todos os botões */
+    height: 50px; /* Altura fixa para todos os botões */
+    display: flex; /* Permite centralizar o conteúdo */
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: center; /* Centraliza horizontalmente */
+    border-radius: 10px; /* Bordas arredondadas para um visual mais suave */
+}
+
+.navbar.dark-mode .navbar-icons button {
+    color: #ccc; /* Cor dos ícones no modo escuro */
+}
+
+.navbar-icons button:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Efeito de hover sutil */
+}
+body.dark-mode {
+    background-color: #121212; /* Cor de fundo escuro */
+    color: #ffffff; /* Cor do texto claro */
+}
+
+.navbar.dark-mode {
+    background: #1e1e1e; /* Cor de fundo da navbar escura */
+}
+
+.navbar.dark-mode button {
+    color: #ffffff; /* Cor do texto dos botões em modo escuro */
+}
+
+.main-content.dark-mode {
+    background-color: #1e1e1e; /* Cor de fundo da área principal escura */
+    color: #ffffff; /* Cor do texto na área principal escura */
+}
+
+.conversation-messages li.dark-mode {
+    background: linear-gradient(to right, #3b3b3b, #505050); /* Mensagens escuras */
+    color: white; /* Cor do texto das mensagens escuras */
+}
+
+.message-input-container {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #ccc; /* Borda superior da barra de entrada */
+    padding: 10px;
+}
+
+#message-input {
+    flex: 1; /* Faz com que o campo de entrada ocupe o espaço restante */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.send-button {
+    margin-left: 10px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    background: linear-gradient(to right, #007bff, #0056b3); /* Gradiente do botão */
+    color: white; /* Cor do texto do botão */
+    cursor: pointer; /* Muda o cursor ao passar sobre o botão */
+}
+
+.send-button:hover {
+    background: linear-gradient(to right, #0056b3, #003d80); /* Efeito hover para o botão */
+}
+
+.message-input-container.dark-mode {
+    background-color: #1e1e1e; /* Cor de fundo da barra de entrada escura */
+    border-top: 1px solid #ccc; /* Borda superior da barra de entrada */
+}

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Rede Social</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f9f9f9;
+            display: flex;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navbar {
+            background: #333;
+            width: 60px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            position: fixed;
+            left: 0;
+            top: 0;
+            transition: background 0.3s;
+        }
+
+        .navbar-icons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .navbar-icons button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #fff;
+            transition: color 0.3s;
+        }
+
+        .navbar-icons button:hover {
+            color: #007bff;
+        }
+
+        .main-content {
+            margin-left: 80px;
+            flex: 1;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        #search-input {
+            display: none;
+            padding: 8px;
+            width: calc(100% - 20px);
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .feed-page,
+        .message-page,
+        .conversation {
+            display: none;
+        }
+
+        .feed-post,
+        .conversation-messages li {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sent {
+            background: linear-gradient(to right, #007bff, #0056b3);
+            color: white;
+            align-self: flex-end;
+            border-radius: 20px;
+            max-width: 75%;
+            word-wrap: break-word;
+            animation: sendAnimation 0.5s forwards;
+        }
+
+        .received {
+            background: linear-gradient(to right, #f1f1f1, #e0e0e0);
+            color: black;
+            align-self: flex-start;
+            border-radius: 20px;
+            max-width: 75%;
+            word-wrap: break-word;
+        }
+
+        body.dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        .navbar.dark-mode {
+            background: #1e1e1e;
+        }
+
+        .main-content.dark-mode {
+            background-color: #1e1e1e;
+        }
+
+        .conversation {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-height: 400px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .conversation-title {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            color: #262626;
+        }
+
+        .conversation-messages {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding: 10px;
+            max-height: 250px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+
+        .typing-indicator {
+            font-style: italic;
+            color: #888;
+            margin: 5px 0;
+        }
+
+        .conversation-input {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .conversation-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+            transition: border 0.3s;
+        }
+
+        .conversation-input input:focus {
+            border-color: #007bff;
+        }
+
+        .conversation-input button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .conversation-input button:hover {
+            background-color: #0056b3;
+        }
+
+        .message-list li {
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .message-list li:hover {
+            background-color: #f0f0f0;
+        }
+
+        @keyframes sendAnimation {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .comments-section {
+            margin-top: 20px;
+        }
+
+        .comment {
+            margin: 5px 0;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .comment-input {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .comment-input input {
+            flex: 1;
+            padding: 8px;
+            margin-right: 5px;
+            border: none; /* Remover borda */
+            border-radius: 4px; /* Mantém o arredondamento dos cantos, se desejar */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Opcional: adicionar uma leve sombra */
+        }
+
+        .comment-input button {
+            padding: 8px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .comment-input button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilo para o campo de postagem */
+        #post-input {
+            padding: 8px;
+            border: none; /* Remover borda */
+            border-radius: 4px; /* Mantém o arredondamento dos cantos, se desejar */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Opcional: adicionar uma leve sombra */
+            width: calc(100% - 20px);
+            margin-right: 10px; /* Espaçamento à direita */
+        }
+
+        .feed-post-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="navbar-icons">
+            <button title="Início" onclick="showPage('feed-page')"><i class="fas fa-home"></i></button>
+            <button title="Mensagens" onclick="showPage('message-page')"><i class="fas fa-envelope"></i></button>
+            <button title="Mudar Tema" onclick="toggleTheme()"><i class="fas fa-adjust"></i></button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div id="notifications" class="notifications"></div>
+        <div id="feed-page" class="feed-page">
+            <h1>Feed de Postagens</h1>
+            <div>
+                <input type="text" id="post-input" placeholder="O que você está pensando?" />
+                <button onclick="createPost()">Postar</button>
+                <input type="file" id="media-upload" accept="image/*" />
+            </div>
+            <div class="feed-post-container" id="feed"></div> <!-- Alterado para container das postagens -->
+            <div class="comments-section">
+                <h3>Comentários</h3>
+                <div id="comments-list"></div>
+                <div class="comment-input">
+                    <input type="text" id="comment-input" placeholder="Adicione um comentário..." />
+                    <button onclick="addComment()">Enviar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="message-page" class="message-page">
+            <h1>Mensagens</h1>
+            <div class="message-list">
+                <ul id="message-list">
+                    <li onclick="openConversation('User1')">User1</li>
+                    <li onclick="openConversation('User2')">User2</li>
+                </ul>
+            </div>
+            <div class="conversation">
+                <div class="conversation-title" id="conversation-title"></div>
+                <ul class="conversation-messages" id="conversation-messages"></ul>
+                <div class="typing-indicator" id="typing-indicator"></div>
+                <div class="conversation-input">
+                    <input type="text" id="message-input" placeholder="Digite sua mensagem..." />
+                    <button onclick="sendMessage()">Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPage(page) {
+            document.querySelectorAll('.feed-page, .message-page').forEach(p => p.style.display = 'none');
+            document.getElementById(page).style.display = 'block';
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            document.querySelector('.navbar').classList.toggle('dark-mode');
+            document.querySelector('.main-content').classList.toggle('dark-mode');
+        }
+
+        function createPost() {
+            const postInput = document.getElementById('post-input');
+            const mediaUpload = document.getElementById('media-upload');
+            const postText = postInput.value;
+
+            if (postText || mediaUpload.files.length > 0) {
+                const post = document.createElement('div');
+                post.className = 'feed-post';
+                post.innerText = postText;
+
+                // Adiciona a imagem se houver
+                if (mediaUpload.files.length > 0) {
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(mediaUpload.files[0]);
+                    img.style.maxWidth = '100%'; // Ajusta o tamanho da imagem
+                    post.appendChild(img);
+                }
+
+                document.getElementById('feed').appendChild(post);
+                postInput.value = '';
+                mediaUpload.value = ''; // Limpa o campo de upload
+            } else {
+                alert("Digite algo ou selecione uma imagem para postar!");
+            }
+        }
+
+        function addComment() {
+            const commentInput = document.getElementById('comment-input');
+            const commentText = commentInput.value;
+
+            if (commentText) {
+                const commentsList = document.getElementById('comments-list');
+                const comment = document.createElement('div');
+                comment.className = 'comment';
+                comment.innerText = commentText;
+                commentsList.appendChild(comment);
+                commentInput.value = '';
+            } else {
+                alert("Digite um comentário!");
+            }
+        }
+
+        function openConversation(user) {
+            document.getElementById('conversation-title').innerText = user;
+            const messages = document.getElementById('conversation-messages');
+            messages.innerHTML = ''; // Limpa mensagens anteriores
+            document.getElementById('typing-indicator').innerText = '';
+
+            // Simular mensagens anteriores
+            const previousMessages = ['Olá!', 'Como você está?'];
+            previousMessages.forEach(msg => {
+                const messageElement = document.createElement('li');
+                messageElement.className = 'received';
+                messageElement.innerText = msg;
+                messages.appendChild(messageElement);
+            });
+
+            showPage('message-page');
+        }
+
+        function sendMessage() {
+            const messageInput = document.getElementById('message-input');
+            const messageText = messageInput.value;
+
+            if (messageText) {
+                const messages = document.getElementById('conversation-messages');
+                const messageElement = document.createElement('li');
+                messageElement.className = 'sent';
+                messageElement.innerText = messageText;
+                messages.appendChild(messageElement);
+                messageInput.value = '';
+
+                // Simular a digitação de resposta
+                document.getElementById('typing-indicator').innerText = 'Usuário está digitando...';
+                setTimeout(() => {
+                    document.getElementById('typing-indicator').innerText = '';
+                    const responseElement = document.createElement('li');
+                    responseElement.className = 'received';
+                    responseElement.innerText = 'Resposta automática!';
+                    messages.appendChild(responseElement);
+                }, 1000);
+            } else {
+                alert("Digite uma mensagem!");
+            }
+        }
+
+        // Inicializa a página inicial
+        showPage('feed-page');
+    </script>
+</body>
+
+</html>
+
+
+
